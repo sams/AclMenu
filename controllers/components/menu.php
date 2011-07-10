@@ -208,7 +208,7 @@ class MenuComponent extends Object {
 			$size = count($this->rawMenus);
 			for ($i = 0; $i < $size; $i++) {
 				$item = $this->rawMenus[$i];
-				$aco = Inflector::underscore($item['url']['controller']);
+				$aco = Inflector::camelize($item['url']['controller']);
 				if (isset($item['url']['action'])) {
 					$aco = $this->aclPath . $aco . $this->aclSeparator . $item['url']['action'];
 				}
@@ -416,8 +416,8 @@ class MenuComponent extends Object {
  * BeforeRender Callback.
  *
  */
-	public function beforeRender() {
-		$this->Controller->set('menu', $this->menu);
+	public function beforeRender($controller) {
+		$controller->set('menu', $this->menu);
 	}
 	
 /**
