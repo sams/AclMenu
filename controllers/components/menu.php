@@ -208,7 +208,7 @@ class MenuComponent extends Object {
 			$size = count($this->rawMenus);
 			for ($i = 0; $i < $size; $i++) {
 				$item = $this->rawMenus[$i];
-				$aco = Inflector::underscore($item['url']['controller']);
+				$aco = Inflector::camelize($item['url']['controller']);
 				if (isset($item['url']['action'])) {
 					$aco = $this->aclPath . $aco . $this->aclSeparator . $item['url']['action'];
 				}
@@ -239,7 +239,7 @@ class MenuComponent extends Object {
  */	
 	public function generateRawMenus() {
 		$Controllers = $this->getControllers();
-		$cakeAdmin = Configure::read('Routing.admin');
+		$cakeAdmin = Configure::read('Routing.prefixes.0');
 		$this->createExclusions();
 		
 		//go through the controllers folder and make an array of every menu that could be used.
@@ -353,7 +353,7 @@ class MenuComponent extends Object {
  * @return mixed.  Array of options or false on total exclusion
  **/
 	public function setOptions($controllerVars) {
-		$cakeAdmin = Configure::read('Routing.admin');
+		$cakeAdmin = Configure::read('Routing.prefixes.0');
 		$menuOptions = isset($controllerVars['menuOptions']) ? $controllerVars['menuOptions'] : array();
 
 		$exclude = array('view', 'edit', 'delete', $cakeAdmin . '_edit', 
@@ -416,8 +416,8 @@ class MenuComponent extends Object {
  * BeforeRender Callback.
  *
  */
-	public function beforeRender() {
-		$this->Controller->set('menu', $this->menu);
+	public function beforeRender($controller) {
+		$controller->set('menu', $this->menu);
 	}
 	
 /**

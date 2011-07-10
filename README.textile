@@ -7,3 +7,5 @@ To use the menu once in a @acl_menu@ dir on your pluginPaths.
 	var $components = array('AclMenu.Menu');
 
 When checking out this repo place it into an @acl_menu@ directory in one of your plugin paths.
+
+updated for cake 1.3

@@ -13,7 +13,7 @@
  * @author Mark Story <mark@mark-story.com>
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-App::import('Component', array('AclMenu.Menu', 'Acl', 'Auth'));
+App::import('Component', array('AclMenu.Menu', 'Acl', 'Auth', 'Session'));
 App::import('Controller', 'AppController');
 
 class TestMenuComponent extends MenuComponent {
@@ -58,6 +58,19 @@ class Controller2Controller extends Controller {
 }
 
 Mock::generate('AclComponent', 'MenuTestMockAclComponent');
+
+ 
+	
+	Cache::config('my_test_key', array(  
+		'engine' => 'File',  
+		'duration'=> '+1 day',  
+		'probability'=> 100,  
+		'path' => CACHE . 'menu',  
+		'prefix' => 'cake_',  
+		'lock' => false,  
+		'serialize' => true)  
+	);
+
 /**
  * Menu Component Test Case
  *
@@ -76,8 +89,10 @@ class MenuComponentTestCase extends CakeTestCase {
 		$this->Controller = new TestMenuController();
 		$this->Menu->Acl = new MenuTestMockAclComponent();
 		$this->Menu->Auth = new AuthComponent();
-		$this->_admin = Configure::read('Routing.admin');
-		Configure::write('Routing.admin', 'admin');
+		$this->Menu->Auth->Session = new SessionComponent();
+		$this->_admin = Configure::read('Routing.prefixes.0');
+		Configure::write('Routing.prefixes.0', 'admin');
+		$this->Menu->startup($this->Controller);
 	}
 
 /**
@@ -428,7 +443,7 @@ class MenuComponentTestCase extends CakeTestCase {
 	function endTest() {
 		ClassRegistry::flush();
 		$this->Menu->clearCache();
-		Configure::write('Routing.admin', $this->_admin);
+		Configure::write('Routing.prefixes.0', $this->_admin);
 		unset($this->Menu, $this->Controller);
 	}
 }
