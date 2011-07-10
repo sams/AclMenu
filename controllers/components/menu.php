@@ -416,7 +416,7 @@ class MenuComponent extends Object {
  * BeforeRender Callback.
  *
  */
-	public function beforeRender($controller) {
+	public function beforeRender(&$controller) {
 		$controller->set('menu', $this->menu);
 	}
 	
