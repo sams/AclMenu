@@ -117,7 +117,7 @@ class MenuComponent extends Object {
  *
  * @return bool
  **/
-	public function initialize(&$Controller, $settings) {
+	public function initialize($Controller, $settings) {
 		if (!empty($settings)) {
 			$this->_set($settings);
 		}
@@ -133,8 +133,8 @@ class MenuComponent extends Object {
  *
  * @param Object $Controller
  */
-	public function startup(&$Controller) {
-		$this->Controller =& $Controller;
+	public function startup($Controller) {
+		$this->Controller = $Controller;
 		
 		Cache::config($this->cacheConfig, array('engine' => 'File', 'duration' => $this->cacheTime, 'prefix' => $this->cacheKey));
 		
@@ -416,8 +416,8 @@ class MenuComponent extends Object {
  * BeforeRender Callback.
  *
  */
-	public function beforeRender(&$controller) {
-		$controller->set('menu', $this->menu);
+	public function beforeRender() {
+		$this->Controller->set('menu', $this->menu);
 	}
 	
 /**
