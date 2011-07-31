@@ -417,6 +417,7 @@ class MenuComponent extends Object {
  *
  */
 	public function beforeRender() {
+		if(!$this->Controller) return;
 		$this->Controller->set('menu', $this->menu);
 	}
 	
