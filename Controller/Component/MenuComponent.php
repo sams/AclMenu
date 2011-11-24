@@ -117,7 +117,7 @@ class MenuComponent extends Component {
  *
  * @return bool
  **/
-	public function initialize($Controller, $settings) {
+	public function initialize($Controller, $settings = array()) {
 		if (!empty($settings)) {
 			$this->_set($settings);
 		}
@@ -319,7 +319,7 @@ class MenuComponent extends Component {
  * @return void
  */
 	public function getControllers() {
-		return Configure::listObjects('controller');
+		return App::objects('Controller');
 	}
 	
 /**
