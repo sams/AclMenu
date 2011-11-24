@@ -248,11 +248,10 @@ class MenuComponent extends Component {
 				continue;
 			}
 			$ctrlName = $Controller;
-			App::import('Controller', $ctrlName);
-			$ctrlclass = $ctrlName . 'Controller';
-			$methods = get_class_methods($ctrlclass);
+			App::uses($ctrlName, 'Controller');
+			$methods = get_class_methods($ctrlName);
 			
-			$classVars = get_class_vars($ctrlclass);
+			$classVars = get_class_vars($ctrlName);
 			$menuOptions = $this->setOptions($classVars);
 			if ($menuOptions === false) {
 				continue;
@@ -319,7 +318,9 @@ class MenuComponent extends Component {
  * @return void
  */
 	public function getControllers() {
-		return App::objects('Controller');
+		$controllers = App::objects('Controller');
+		unset($controllers[0]);
+		return $controllers;
 	}
 	
 /**
@@ -335,6 +336,8 @@ class MenuComponent extends Component {
 			$remove = array_map('strtolower', $remove);
 		}
 		$exclusions = array_merge($this->excludedMethods, $remove);
+		
+		
 		foreach ($methods as $k => $method) {
 			$method = strtolower($method);
 			if (strpos($method, '_', 0) === 0) {
